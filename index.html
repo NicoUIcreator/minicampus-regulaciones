@@ -1,1102 +1,1162 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minicampus Virtual: Regulaciones Europeas</title>
-    <!-- Incluye Tailwind CSS para un estilo moderno y responsivo -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #374151;
-        }
-        .sidebar {
-            width: 280px;
-            min-width: 280px;
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(0);
-        }
-        .sidebar.hidden {
-            transform: translateX(-100%);
-        }
-        .main-content {
-            flex-grow: 1;
-            padding: 1.5rem;
-            transition: margin-left 0.3s ease-in-out;
-        }
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                height: 100%;
-                z-index: 50;
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-        .nav-item.active {
-            background-color: #e5e7eb;
-            font-weight: 600;
-        }
-        .progress-bar-fill {
-            transition: width 0.5s ease-in-out;
-        }
-        .module-content, .test-section, .game-section, .glossary-section, .simulator-section {
-            display: none;
-        }
-        .module-content.active, .test-section.active, .game-section.active, .glossary-section.active, .simulator-section.active {
-            display: block;
-        }
-        .correct {
-            color: #10b981;
-            font-weight: 600;
-        }
-        .incorrect {
-            color: #ef4444;
-            font-weight: 600;
-        }
-        .badge {
-            transition: transform 0.3s ease-in-out;
-        }
-        .badge:hover {
-            transform: scale(1.1);
-        }
-        .tooltip {
-            visibility: hidden;
-            background-color: #374151;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px;
-            position: absolute;
-            z-index: 10;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #374151 transparent transparent transparent;
-        }
-        .badge-container:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-        .glossary-term {
-            cursor: pointer;
-            text-decoration: underline;
-            color: #4b5563;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minicampus: Regulaciones ISO 27001, DORA y NIS2</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #3498db;
+      --accent: #e74c3c;
+      --light: #ecf0f1;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --gray: #95a5a6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      border-bottom: 5px solid #1a2530;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .container {
+      display: flex;
+      min-height: calc(100vh - 100px);
+    }
+
+    nav.sidebar {
+      width: 280px;
+      background-color: var(--primary);
+      color: white;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    nav.sidebar h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 0.5rem;
+    }
+
+    nav.sidebar ul {
+      list-style: none;
+    }
+
+    nav.sidebar li {
+      margin-bottom: 0.8rem;
+    }
+
+    nav.sidebar a {
+      color: #bdc3c7;
+      text-decoration: none;
+      display: block;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    nav.sidebar a:hover, nav.sidebar a.active {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    main.content {
+      flex: 1;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+
+    .module {
+      display: none;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .module.active {
+      display: block;
+    }
+
+    .module-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--secondary);
+    }
+
+    .module-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+    }
+
+    .module-header p {
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: var(--secondary);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .card p, .card ul {
+      color: #555;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .card ul {
+      padding-left: 1.5rem;
+    }
+
+    .card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .visual {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+
+    .visual img, .visual table {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1rem auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f2f7fb;
+    }
+
+    .quiz, .game, .glossary, .timeline, .simulator {
+      margin-top: 2rem;
+    }
+
+    .question {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .question p {
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .option {
+      padding: 0.8rem;
+      background-color: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .option:hover {
+      background-color: #e9ecef;
+    }
+
+    .option.selected {
+      background-color: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .feedback {
+      margin-top: 0.5rem;
+      padding: 0.7rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .correct {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .incorrect {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6c7;
+    }
+
+    button.btn {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    button.btn-primary {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    button.btn-success {
+      background-color: var(--success);
+      color: white;
+    }
+
+    button.btn-warning {
+      background-color: var(--warning);
+      color: white;
+    }
+
+    button.btn:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    .progress-container {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar-outer {
+      height: 20px;
+      background-color: #e9ecef;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--success), var(--secondary));
+      border-radius: 10px;
+      transition: width 0.6s ease;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      padding: 0.5rem 1rem;
+      background-color: #dee2e6;
+      color: #495057;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge.unlocked {
+      background-color: var(--success);
+      color: white;
+    }
+
+    .badge i {
+      font-size: 1.2rem;
+    }
+
+    .game-area {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-top: 1.5rem;
+    }
+
+    .match-pairs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .pair-item {
+      padding: 1rem;
+      background-color: #f8f9fa;
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .drag-drop {
+      margin-top: 1rem;
+    }
+
+    .drop-zone {
+      min-height: 100px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+
+    .drop-zone.active {
+      border-color: var(--secondary);
+      background-color: #e3f2fd;
+    }
+
+    .draggable {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--secondary);
+      color: white;
+      border-radius: 20px;
+      cursor: move;
+    }
+
+    .glossary-term {
+      font-weight: 600;
+      color: var(--secondary);
+      cursor: pointer;
+      border-bottom: 1px dashed var(--secondary);
+    }
+
+    .glossary-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .glossary-modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .glossary-modal h3 {
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .close-modal {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .close-modal:hover {
+      color: #000;
+    }
+
+    .timeline {
+      position: relative;
+      margin: 2rem 0;
+      padding-left: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background-color: var(--secondary);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -38px;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      background-color: white;
+      border: 4px solid var(--secondary);
+      border-radius: 50%;
+    }
+
+    .timeline-date {
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .simulator {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-top: 1.5rem;
+    }
+
+    .simulator input, .simulator select, .simulator button {
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    .simulator button {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    .simulator table {
+      margin-top: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      nav.sidebar {
+        width: 100%;
+        padding: 1rem;
+      }
+      main.content {
+        padding: 1rem;
+      }
+      .match-pairs {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+<body>
+  <header>
+    <h1>🎓 Minicampus Virtual: Ciberseguridad y Regulaciones Europeas</h1>
+    <p>ISO 27001, DORA y NIS2 | Aprende, practica y domina la resiliencia digital</p>
+  </header>
 
+  <div class="container">
     <!-- Sidebar de navegación -->
-    <aside id="sidebar" class="sidebar bg-white p-6 shadow-lg overflow-y-auto">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Minicampus</h1>
-            <button id="toggle-sidebar" class="md:hidden text-gray-500 hover:text-gray-700">
-                <i class="fas fa-times"></i>
-            </button>
+    <nav class="sidebar">
+      <h2>📚 Módulos</h2>
+      <ul>
+        <li><a href="#modulo1" class="nav-link active">Módulo 1: ISO 27001</a></li>
+        <li><a href="#modulo2" class="nav-link">Módulo 2: DORA</a></li>
+        <li><a href="#modulo3" class="nav-link">Módulo 3: NIS2</a></li>
+        <li><a href="#modulo4" class="nav-link">Módulo 4: Cumplimiento Integrado</a></li>
+        <li><a href="#modulo5" class="nav-link">Módulo 5: Implementación</a></li>
+      </ul>
+
+      <h2>🎮 Actividades</h2>
+      <ul>
+        <li><a href="#glosario" class="nav-link">Glosario Interactivo</a></li>
+        <li><a href="#timeline" class="nav-link">Línea de Tiempo</a></li>
+        <li><a href="#juegos" class="nav-link">Juegos</a></li>
+        <li><a href="#simulador" class="nav-link">Simulador de Cumplimiento</a></li>
+      </ul>
+
+      <h2>📊 Tu Progreso</h2>
+      <div class="progress-container">
+        <p><strong>Progreso General:</strong></p>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner" id="progress-bar" style="width: 0%"></div>
         </div>
-        
-        <!-- Barra de Progreso Global -->
-        <div class="bg-gray-100 rounded-lg p-4 mb-6">
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Progreso General</h2>
-            <div class="w-full bg-gray-300 rounded-full h-2.5">
-                <div id="progress-bar" class="bg-blue-500 h-2.5 rounded-full progress-bar-fill" style="width: 0%;"></div>
-            </div>
-            <p id="progress-text" class="text-right text-xs mt-1 text-gray-500">0%</p>
+        <p id="progress-text">0% completado</p>
+
+        <p><strong>Logros:</strong></p>
+        <div class="badges">
+          <div class="badge" id="badge1"><i>🔒</i> Novato en Seguridad</div>
+          <div class="badge" id="badge2"><i>🛡️</i> Experto en DORA</div>
+          <div class="badge" id="badge3"><i>🌐</i> Maestro NIS2</div>
+          <div class="badge" id="badge4"><i>🏆</i> Campeón de Cumplimiento</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="content">
+      <!-- Módulo 1: ISO 27001 -->
+      <section id="modulo1" class="module active">
+        <div class="module-header">
+          <h2>Módulo 1: ISO/IEC 27001 - El Estándar Global de Seguridad de la Información</h2>
+          <p>Aprende los fundamentos del sistema de gestión de seguridad de la información (SGSI).</p>
         </div>
 
-        <!-- Menú de Módulos -->
-        <nav class="space-y-2">
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Módulos de Aprendizaje</h2>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-1">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 1: ISO 27001</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-2">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 2: DORA</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-3">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 3: NIS2</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-4">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 4: Sinergias</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-5">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 5: Desafíos</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="module-6">
-                <i class="fas fa-book-open mr-3 text-blue-500"></i>
-                <span class="text-gray-700">Módulo 6: Implementación</span>
-            </a>
-        </nav>
-
-        <!-- Menú de Herramientas -->
-        <nav class="space-y-2 mt-6">
-            <h2 class="text-sm font-semibold text-gray-600 mb-2">Herramientas Interactivas</h2>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="games">
-                <i class="fas fa-gamepad mr-3 text-purple-500"></i>
-                <span class="text-gray-700">Juegos</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="glossary">
-                <i class="fas fa-book mr-3 text-green-500"></i>
-                <span class="text-gray-700">Glosario</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="simulator">
-                <i class="fas fa-robot mr-3 text-orange-500"></i>
-                <span class="text-gray-700">Simulador</span>
-            </a>
-            <a href="#" class="nav-item flex items-center p-3 rounded-lg hover:bg-gray-200 transition-colors" data-section="badges">
-                <i class="fas fa-medal mr-3 text-yellow-500"></i>
-                <span class="text-gray-700">Logros</span>
-            </a>
-        </nav>
-    </aside>
-
-    <!-- Contenido principal y toggle para móvil -->
-    <div class="flex-1 overflow-y-auto main-content">
-        <button id="open-sidebar" class="md:hidden text-gray-500 hover:text-gray-700 p-2 rounded-lg bg-white shadow-md mb-4">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <div id="content-area" class="bg-white p-8 rounded-xl shadow-lg">
-
-            <!-- Sección de Bienvenida (por defecto) -->
-            <div id="welcome-section" class="active">
-                <h1 class="text-3xl font-bold text-gray-800 mb-4">Bienvenido al Minicampus de Ciberseguridad</h1>
-                <p class="text-lg text-gray-600 mb-6">Explora y aprende sobre las regulaciones más importantes de la ciberseguridad europea: ISO 27001, DORA y NIS2.</p>
-                <img src="https://placehold.co/800x400/e5e7eb/7f8c8d?text=Ilustración+de+Ciberseguridad" alt="Ilustración de Ciberseguridad" class="rounded-lg mb-6 shadow-md">
-                <p class="text-gray-700 leading-relaxed">Este campus interactivo está diseñado para ayudarte a entender la interconexión entre estos marcos regulatorios. Navega por los módulos, pon a prueba tus conocimientos y explora las herramientas interactivas para una experiencia de aprendizaje completa. ¡Empieza haciendo clic en cualquier módulo del menú lateral!</p>
-            </div>
-
-            <!-- Módulo 1: ISO 27001 -->
-            <div id="module-1" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 1: ISO/IEC 27001</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">ISO/IEC 27001 es un estándar internacional para la gestión de la seguridad de la información. Su objetivo principal es ayudar a las organizaciones a establecer, implementar, mantener y mejorar continuamente un Sistema de Gestión de la Seguridad de la Información (SGSI) para proteger la <span class="glossary-term" data-term="CIA">Confidencialidad, Integridad y Disponibilidad (CIA)</span> de sus activos de información. A diferencia de DORA y NIS2, ISO 27001 es un estándar voluntario.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Controles Clave</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li><span class="font-semibold">Controles Organizacionales:</span> Políticas, reglas y procedimientos de la organización.</li>
-                        <li><span class="font-semibold">Controles Orientados a las Personas:</span> Formación, concienciación y responsabilidades del personal.</li>
-                        <li><span class="font-semibold">Controles Físicos:</span> Seguridad de activos tangibles y ubicaciones.</li>
-                        <li><span class="font-semibold">Controles Tecnológicos:</span> Procedimientos digitales, autenticación y acceso.</li>
-                    </ul>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-1">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿Cuál es el objetivo principal de ISO 27001?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q1" value="a" class="mr-2"> Proteger la Confidencialidad, Integridad y Disponibilidad.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q1" value="b" class="mr-2"> Imponer sanciones legales a las empresas.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q1" value="c" class="mr-2"> Regular el sector financiero.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿Es la norma ISO 27001 de cumplimiento obligatorio en la Unión Europea?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q2" value="a" class="mr-2"> Sí, es una ley obligatoria.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q2" value="b" class="mr-2"> No, es un estándar voluntario.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q2" value="c" class="mr-2"> Solo para el sector público.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 2: DORA -->
-            <div id="module-2" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 2: DORA</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">El Reglamento de Resiliencia Operativa Digital (DORA) es un marco legislativo de la Unión Europea para el sector financiero. Su objetivo es asegurar que las entidades financieras puedan soportar, responder y recuperarse de interrupciones y amenazas relacionadas con las TIC. A diferencia de ISO 27001, DORA es una regulación obligatoria con un plazo de cumplimiento estricto.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Los 5 Pilares de DORA</h3>
-                    <img src="https://placehold.co/600x300/e5e7eb/7f8c8d?text=Diagrama+de+los+5+Pilares+de+DORA" alt="Diagrama de los 5 Pilares de DORA" class="rounded-lg mb-4 shadow-md mx-auto">
-                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                        <li>Gestión de riesgos de las TIC</li>
-                        <li>Notificación de incidentes</li>
-                        <li>Pruebas de resistencia operativa digital</li>
-                        <li>Gestión del riesgo frente a terceros</li>
-                        <li>Intercambio de información</li>
-                    </ol>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-2">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿A qué sector se aplica principalmente el reglamento DORA?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q3" value="a" class="mr-2"> Sector energético.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q3" value="b" class="mr-2"> Sector de transporte.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q3" value="c" class="mr-2"> Sector financiero.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿Es la notificación de incidentes uno de los pilares de DORA?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q4" value="a" class="mr-2"> Sí.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q4" value="b" class="mr-2"> No.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Módulo 3: NIS2 -->
-            <div id="module-3" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 3: NIS2</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">La Directiva NIS2 es una evolución de la directiva original que busca crear un nivel de ciberseguridad elevado en toda la UE. Amplía el ámbito de aplicación a muchos más sectores, clasificándolos en "Entidades Esenciales" y "Entidades Importantes". Impone obligaciones rigurosas de gestión de riesgos y notificación de incidentes, con sanciones significativamente más severas.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Sectores Clave</h3>
-                    <table class="min-w-full bg-white rounded-lg shadow-md">
-                        <thead>
-                            <tr class="bg-gray-200">
-                                <th class="py-2 px-4 text-left text-sm font-semibold text-gray-700 rounded-tl-lg">Entidades Esenciales</th>
-                                <th class="py-2 px-4 text-left text-sm font-semibold text-gray-700 rounded-tr-lg">Entidades Importantes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="py-2 px-4 border-b">Energía</td>
-                                <td class="py-2 px-4 border-b">Servicios postales</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b">Transporte</td>
-                                <td class="py-2 px-4 border-b">Gestión de residuos</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4 border-b">Banca</td>
-                                <td class="py-2 px-4 border-b">Fabricación de productos clave</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-3">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿A qué se refiere el término "Entidades Esenciales" en NIS2?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q5" value="a" class="mr-2"> Empresas que operan en sectores de baja criticidad.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q5" value="b" class="mr-2"> Empresas que operan en sectores de alta criticidad.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q5" value="c" class="mr-2"> Empresas que no necesitan cumplir con la directiva.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿Las sanciones de NIS2 son más severas que las de la directiva anterior?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q6" value="a" class="mr-2"> Sí.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q6" value="b" class="mr-2"> No.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 4: Sinergias -->
-            <div id="module-4" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 4: Sinergias y Complementariedad</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">ISO 27001, DORA y NIS2 no deben verse como proyectos aislados, sino como marcos complementarios. ISO 27001 actúa como la base estratégica para el cumplimiento, ya que su enfoque de SGSI y gestión de riesgos abarca gran parte de las medidas técnicas y organizativas requeridas por DORA y NIS2. La certificación ISO 27001 de un proveedor simplifica la gestión del riesgo de terceros, que es un requisito clave de DORA y NIS2.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Mapeo de Requisitos</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white rounded-lg shadow-md">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="py-2 px-4 text-left text-sm font-semibold text-gray-700">Requisito DORA/NIS2</th>
-                                    <th class="py-2 px-4 text-left text-sm font-semibold text-gray-700">Cláusula o Control ISO 27001</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Gobernanza y gestión de riesgos</td>
-                                    <td class="py-2 px-4 border-b">Cláusula 5 y 6.1</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Notificación de incidentes</td>
-                                    <td class="py-2 px-4 border-b">Cláusula 16.1</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Pruebas de resiliencia digital</td>
-                                    <td class="py-2 px-4 border-b">Anexo A.8.20</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-2 px-4 border-b">Gestión de riesgos de terceros</td>
-                                    <td class="py-2 px-4 border-b">Anexo A.15</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-4">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿Cómo puede ISO 27001 actuar como base para el cumplimiento de DORA y NIS2?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q7" value="a" class="mr-2"> Proporcionando un marco de gestión de riesgos y controles.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q7" value="b" class="mr-2"> Al ser una ley obligatoria.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q7" value="c" class="mr-2"> Al no tener requisitos técnicos.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿La certificación ISO 27001 de un proveedor simplifica la gestión de riesgos de terceros?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q8" value="a" class="mr-2"> Sí, porque demuestra diligencia debida.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q8" value="b" class="mr-2"> No, no tiene relación.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 5: Desafíos -->
-            <div id="module-5" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 5: Requisitos Específicos y Puntos de Desconexión</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">Aunque ISO 27001 es una base sólida, DORA y NIS2 tienen requisitos específicos que van más allá. Las principales diferencias radican en los plazos y formatos de notificación de incidentes, la obligatoriedad de pruebas de penetración y, sobre todo, la responsabilidad personal y legal que recae sobre la alta dirección, lo que no ocurre con ISO 27001.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Diferencias Clave</h3>
-                    <ul class="list-disc list-inside space-y-2 text-gray-700">
-                        <li><span class="font-semibold">Obligaciones de Notificación:</span> DORA y NIS2 establecen plazos estrictos y detallados.</li>
-                        <li><span class="font-semibold">Pruebas Obligatorias:</span> DORA y NIS2 exigen pruebas de penetración y simulación.</li>
-                        <li><span class="font-semibold">Responsabilidad de la Alta Dirección:</span> DORA y NIS2 imponen sanciones legales a los directivos.</li>
-                    </ul>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-5">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿Qué es un requisito de DORA y NIS2 que no se especifica en ISO 27001?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q9" value="a" class="mr-2"> Notificación detallada de incidentes con plazos estrictos.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q9" value="b" class="mr-2"> Controles de acceso.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q9" value="c" class="mr-2"> Gestión de la cadena de suministro.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿La alta dirección puede ser sancionada personalmente por el incumplimiento de DORA y NIS2?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q10" value="a" class="mr-2"> No, solo la empresa.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q10" value="b" class="mr-2"> Sí, la responsabilidad es personal y legal.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Módulo 6: Implementación -->
-            <div id="module-6" class="module-content">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Módulo 6: Guía de Implementación</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Resumen</h3>
-                    <p class="text-gray-700">La implementación de estos marcos requiere una hoja de ruta estratégica que comience con el compromiso de la alta dirección. Se debe realizar un análisis de brechas para identificar las áreas de mejora, seguido del diseño de una estrategia unificada que utilice ISO 27001 como base. La capacitación continua y el monitoreo constante son esenciales para mantener el cumplimiento y la resiliencia.</p>
-                </div>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <h3 class="text-xl font-semibold mb-2">Hoja de Ruta Estratégica</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">1</div>
-                            <p class="flex-1 text-gray-700 font-semibold">Compromiso de la alta dirección</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">2</div>
-                            <p class="flex-1 text-gray-700 font-semibold">Análisis de brechas (GAP Analysis)</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">3</div>
-                            <p class="flex-1 text-gray-700 font-semibold">Diseño e implementación de una estrategia unificada</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">4</div>
-                            <p class="flex-1 text-gray-700 font-semibold">Capacitación y concienciación continua</p>
-                        </div>
-                        <div class="flex items-start">
-                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">5</div>
-                            <p class="flex-1 text-gray-700 font-semibold">Monitoreo y mejora continua</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Test de Autoevaluación -->
-                <div class="test-section mt-8">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Test de Autoevaluación</h3>
-                    <div id="test-6">
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">1. ¿Cuál es el primer paso crucial en la hoja de ruta de implementación?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q11" value="a" class="mr-2"> Comprar un software de seguridad.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q11" value="b" class="mr-2"> Obtener el compromiso de la alta dirección.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q11" value="c" class="mr-2"> Realizar una auditoría externa.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <div class="mb-4">
-                            <p class="font-semibold text-gray-700">2. ¿Es el cumplimiento un evento único o un proceso continuo?</p>
-                            <div class="space-y-2 mt-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="q12" value="a" class="mr-2"> Es un evento único.
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="q12" value="b" class="mr-2"> Es un proceso continuo de monitoreo y mejora.
-                                </label>
-                            </div>
-                            <p class="feedback-text mt-2 text-sm"></p>
-                        </div>
-                        <button class="check-answers-btn bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4">Comprobar Respuestas</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de Glosario -->
-            <div id="glossary" class="glossary-section">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Glosario de Términos</h2>
-                <div class="p-6 bg-gray-100 rounded-lg mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">SGSI</h3>
-                            <p class="text-sm text-gray-600 mt-1">Sistema de Gestión de la Seguridad de la Información. Conjunto de políticas y procedimientos para gestionar los riesgos de seguridad.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">DORA</h3>
-                            <p class="text-sm text-gray-600 mt-1">Digital Operational Resilience Act. Reglamento de la UE para la resiliencia digital en el sector financiero.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">NIS2</h3>
-                            <p class="text-sm text-gray-600 mt-1">Directiva de Seguridad de Redes y Sistemas de Información. Directiva de la UE que refuerza los requisitos de ciberseguridad en sectores críticos.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">ISO 27001</h3>
-                            <p class="text-sm text-gray-600 mt-1">Estándar internacional para la gestión de la seguridad de la información. Voluntario.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">CIA</h3>
-                            <p class="text-sm text-gray-600 mt-1">Confidencialidad, Integridad y Disponibilidad. Los tres pilares de la seguridad de la información.</p>
-                        </div>
-                        <div class="p-4 bg-white rounded-lg shadow-md">
-                            <h3 class="font-semibold text-gray-800">TIC</h3>
-                            <p class="text-sm text-gray-600 mt-1">Tecnologías de la Información y la Comunicación.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sección de Juegos -->
-            <div id="games" class="game-section">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Juegos Interactivos</h2>
-                <div id="game-container" class="space-y-8">
-                    
-                    <!-- Juego 1: Emparejar Conceptos -->
-                    <div id="matching-game" class="bg-gray-100 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4">Juego de Emparejamiento</h3>
-                        <p class="mb-4 text-gray-700">Arrastra cada término a su definición correcta.</p>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="flex flex-col items-center">
-                                <div id="term-DORA" class="term-item p-4 bg-blue-400 text-white rounded-lg shadow-sm cursor-grab" draggable="true" data-term="DORA">DORA</div>
-                                <div id="term-NIS2" class="term-item p-4 bg-purple-400 text-white rounded-lg shadow-sm cursor-grab mt-4" draggable="true" data-term="NIS2">NIS2</div>
-                                <div id="term-ISO" class="term-item p-4 bg-green-400 text-white rounded-lg shadow-sm cursor-grab mt-4" draggable="true" data-term="ISO">ISO 27001</div>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <div id="drop-1" class="drop-zone w-full p-4 bg-white rounded-lg shadow-inner flex items-center justify-center border-2 border-dashed border-gray-400" data-def="financial-resilience">Resiliencia financiera</div>
-                                <div id="drop-2" class="drop-zone w-full p-4 bg-white rounded-lg shadow-inner flex items-center justify-center border-2 border-dashed border-gray-400 mt-4" data-def="critical-sectors">Sectores críticos</div>
-                                <div id="drop-3" class="drop-zone w-full p-4 bg-white rounded-lg shadow-inner flex items-center justify-center border-2 border-dashed border-gray-400 mt-4" data-def="info-security-standard">Estándar de seguridad</div>
-                            </div>
-                        </div>
-                        <p id="match-feedback" class="text-center mt-4"></p>
-                    </div>
-
-                    <!-- Juego 2: Completar Frases -->
-                    <div id="fill-in-the-blank-game" class="bg-gray-100 p-6 rounded-lg shadow-md">
-                        <h3 class="text-xl font-semibold mb-4">Completa la Frase</h3>
-                        <p class="mb-4 text-gray-700">Completa la siguiente frase arrastrando las palabras correctas.</p>
-                        <div class="flex flex-col items-center">
-                            <div class="mb-4 text-center">
-                                <p class="text-lg">La directiva NIS2 clasifica las entidades en ___ y ___.</p>
-                            </div>
-                            <div class="flex flex-wrap justify-center gap-2 mb-4">
-                                <div class="word-bank-item p-3 bg-gray-300 rounded-lg cursor-grab" draggable="true" data-word="Esenciales">Esenciales</div>
-                                <div class="word-bank-item p-3 bg-gray-300 rounded-lg cursor-grab" draggable="true" data-word="Secundarias">Secundarias</div>
-                                <div class="word-bank-item p-3 bg-gray-300 rounded-lg cursor-grab" draggable="true" data-word="Importantes">Importantes</div>
-                                <div class="word-bank-item p-3 bg-gray-300 rounded-lg cursor-grab" draggable="true" data-word="Menores">Menores</div>
-                            </div>
-                            <div id="blank-drop-zone" class="w-full p-4 bg-white rounded-lg shadow-inner flex justify-center items-center border-2 border-dashed border-gray-400">
-                                <span class="placeholder-text">Arrastra las palabras aquí</span>
-                            </div>
-                        </div>
-                        <button id="check-fill-in-the-blank" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors mt-4 block mx-auto">Comprobar</button>
-                        <p id="fill-in-the-blank-feedback" class="text-center mt-2"></p>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- Sección de Simulador -->
-            <div id="simulator" class="simulator-section">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Simulador de Riesgos</h2>
-                <div class="bg-gray-100 p-6 rounded-lg mb-6">
-                    <p class="text-gray-700 mb-4">Simula un escenario de riesgo. Asigna un control de ISO 27001 para mitigar la amenaza y observa el impacto.</p>
-                    <div id="scenario-display" class="bg-white p-4 rounded-lg shadow-md mb-4">
-                        <h3 class="font-semibold text-gray-800">Escenario:</h3>
-                        <p id="scenario-text" class="text-gray-600 mt-2">Un empleado recibe un correo de phishing y hace clic en un enlace malicioso.</p>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="control-select" class="block font-semibold text-gray-700 mb-2">Selecciona un Control ISO 27001:</label>
-                        <select id="control-select" class="w-full p-2 rounded-lg border border-gray-300">
-                            <option value="none">Selecciona un control</option>
-                            <option value="concienciacion">Campaña de concienciación y formación en ciberseguridad</option>
-                            <option value="acceso-fisico">Controles de acceso físico a servidores</option>
-                            <option value="copias-seguridad">Política de copias de seguridad</option>
-                        </select>
-                    </div>
-                    <button id="simulate-btn" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors">Simular</button>
-                    <div id="simulation-result" class="mt-4 p-4 rounded-lg hidden"></div>
-                </div>
-            </div>
-
-            <!-- Sección de Logros -->
-            <div id="badges" class="badges-section">
-                <h2 class="text-2xl font-bold mb-4 text-gray-800">Logros Obtenidos</h2>
-                <div id="badges-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6 bg-gray-100 rounded-lg">
-                    <!-- Badges se insertarán aquí dinámicamente -->
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-gem text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Aprendiz de ISO</p>
-                        <span class="tooltip">Completa el Módulo 1</span>
-                    </div>
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-shield-alt text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Maestro de DORA</p>
-                        <span class="tooltip">Completa el Módulo 2</span>
-                    </div>
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-lock text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Gurú de NIS2</p>
-                        <span class="tooltip">Completa el Módulo 3</span>
-                    </div>
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-handshake text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Integrador</p>
-                        <span class="tooltip">Completa el Módulo 4</span>
-                    </div>
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-exclamation-triangle text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Estratega</p>
-                        <span class="tooltip">Completa el Módulo 5</span>
-                    </div>
-                    <div class="badge-container flex flex-col items-center">
-                        <i class="fas fa-rocket text-gray-300 text-5xl badge"></i>
-                        <p class="text-center mt-2 text-gray-500 font-semibold">Implementador</p>
-                        <span class="tooltip">Completa el Módulo 6</span>
-                    </div>
-                </div>
-            </div>
-
+        <div class="card">
+          <h3>📌 Resumen Explicativo</h3>
+          <p>La norma <strong>ISO/IEC 27001</strong> es un estándar internacional que establece los requisitos para un Sistema de Gestión de la Seguridad de la Información (SGSI). Su objetivo es proteger la <strong>confidencialidad, integridad y disponibilidad</strong> (CIA) de la información mediante un enfoque basado en riesgos.</p>
+          <p>Es un estándar <strong>voluntario</strong>, pero su certificación es un diferenciador estratégico que demuestra compromiso con la seguridad y facilita el cumplimiento de otras normativas como GDPR, DORA y NIS2.</p>
         </div>
+
+        <div class="card">
+          <h3>💡 Ejemplo Práctico</h3>
+          <p><strong>Situación:</strong> Una empresa de tecnología quiere mejorar su postura de seguridad y ganar confianza de sus clientes.</p>
+          <p><strong>Solución:</strong> Implementa un SGSI basado en ISO 27001. Realiza una evaluación de riesgos, define políticas de seguridad, forma a su personal y audita sus procesos. Tras 6 meses, obtiene la certificación.</p>
+          <p><strong>Resultado:</strong> Incrementa su competitividad, reduce incidentes de seguridad y facilita su cumplimiento de DORA al ya tener controles robustos.</p>
+        </div>
+
+        <div class="card">
+          <h3>📊 Dominios de Controles ISO 27001</h3>
+          <table>
+            <tr>
+              <th>Dominio</th>
+              <th>Descripción</th>
+              <th>Ejemplo de Control</th>
+            </tr>
+            <tr>
+              <td>Organizacionales</td>
+              <td>Políticas, roles y responsabilidades</td>
+              <td>Definir un comité de seguridad</td>
+            </tr>
+            <tr>
+              <td>Orientados a Personas</td>
+              <td>Formación, concienciación y gestión de empleados</td>
+              <td>Capacitación anual en phishing</td>
+            </tr>
+            <tr>
+              <td>Físicos</td>
+              <td>Seguridad de instalaciones y equipos</td>
+              <td>Control de acceso a salas de servidores</td>
+            </tr>
+            <tr>
+              <td>Tecnológicos</td>
+              <td>Configuración, acceso y protección digital</td>
+              <td>Firewalls y cifrado de datos</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="quiz">
+          <h3>📝 Test de Autoevaluación</h3>
+          <div class="question">
+            <p>1. ¿Cuál es el objetivo principal de ISO 27001?</p>
+            <div class="options">
+              <div class="option" data-correct="true">Establecer un Sistema de Gestión de la Seguridad de la Información (SGSI)</div>
+              <div class="option">Cumplir obligatoriamente con el GDPR</div>
+              <div class="option">Reemplazar todos los sistemas de ciberseguridad</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. ISO 27001 define los requisitos para un SGSI basado en riesgos.</div>
+          </div>
+
+          <div class="question">
+            <p>2. ¿Es ISO 27001 una normativa legal obligatoria?</p>
+            <div class="options">
+              <div class="option">Sí, todas las empresas deben cumplirla</div>
+              <div class="option" data-correct="true">No, es un estándar voluntario</div>
+              <div class="option">Solo es obligatoria en el sector financiero</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Es voluntaria, pero muy recomendada y estratégica.</div>
+          </div>
+
+          <button class="btn btn-primary" onclick="checkAnswers()">Enviar Respuestas</button>
+        </div>
+      </section>
+
+      <!-- Módulo 2: DORA -->
+      <section id="modulo2" class="module">
+        <div class="module-header">
+          <h2>Módulo 2: DORA - Resiliencia Operativa Digital</h2>
+          <p>Conoce el reglamento clave para el sector financiero europeo.</p>
+        </div>
+
+        <div class="card">
+          <h3>📌 Resumen Explicativo</h3>
+          <p>El <strong>Reglamento DORA</strong> (Digital Operational Resilience Act) es una normativa <strong>obligatoria</strong> de la UE para entidades financieras. Su objetivo es fortalecer la resiliencia ante incidentes de ciberseguridad y garantizar la continuidad del negocio.</p>
+          <p>Entró en vigor en enero de 2023, con fecha de cumplimiento total el <strong>17 de enero de 2025</strong>.</p>
+        </div>
+
+        <div class="card">
+          <h3>🔧 Los 5 Pilares de DORA</h3>
+          <ul>
+            <li><strong>Gestión de riesgos de TIC:</strong> Marco para identificar y mitigar amenazas digitales.</li>
+            <li><strong>Notificación de incidentes:</strong> Obligación de informar a las autoridades en plazos estrictos.</li>
+            <li><strong>Pruebas de resistencia:</strong> Realización periódica de pruebas de penetración y simulaciones.</li>
+            <li><strong>Gestión de terceros:</strong> Supervisión rigurosa de proveedores de servicios de TIC.</li>
+            <li><strong>Intercambio de información:</strong> Colaboración entre entidades para compartir amenazas.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>💡 Caso Real</h3>
+          <p><strong>Entidad:</strong> Banco europeo con múltiples proveedores de nube.</p>
+          <p><strong>Desafío:</strong> Asegurar que sus proveedores cumplan con los requisitos de resiliencia.</p>
+          <p><strong>Solución:</strong> Realiza auditorías técnicas y exige certificación ISO 27001 a todos sus proveedores clave.</p>
+          <p><strong>Resultado:</strong> Reduce el riesgo de fallos en la cadena de suministro y cumple con DORA.</p>
+        </div>
+
+        <div class="quiz">
+          <h3>📝 Test de Autoevaluación</h3>
+          <div class="question">
+            <p>1. ¿Cuál es la fecha límite de cumplimiento de DORA?</p>
+            <div class="options">
+              <div class="option">17 de enero de 2024</div>
+              <div class="option" data-correct="true">17 de enero de 2025</div>
+              <div class="option">16 de enero de 2026</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Las autoridades comenzarán la supervisión a partir de esa fecha.</div>
+          </div>
+
+          <div class="question">
+            <p>2. ¿Qué pilar de DORA se enfoca en probar la resistencia de los sistemas?</p>
+            <div class="options">
+              <div class="option">Gestión de riesgos de TIC</div>
+              <div class="option" data-correct="true">Pruebas de resistencia operativa digital</div>
+              <div class="option">Notificación de incidentes</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Incluye pruebas de penetración y simulaciones.</div>
+          </div>
+
+          <button class="btn btn-primary" onclick="checkAnswers()">Enviar Respuestas</button>
+        </div>
+      </section>
+
+      <!-- Módulo 3: NIS2 -->
+      <section id="modulo3" class="module">
+        <div class="module-header">
+          <h2>Módulo 3: NIS2 - Ciberseguridad en Sectores Críticos</h2>
+          <p>Descubre la directiva que amplía la protección a más sectores estratégicos.</p>
+        </div>
+
+        <div class="card">
+          <h3>📌 Resumen Explicativo</h3>
+          <p>La <strong>Directiva NIS2</strong> es la evolución de NIS, con un alcance más amplio y sanciones más severas. Aplica a <strong>entidades esenciales</strong> (energía, salud, banca) e <strong>importantes</strong> (fabricación, alimentos, servicios digitales).</p>
+          <p>Establece obligaciones claras de gestión de riesgos, notificación de incidentes y responsabilidad de la alta dirección.</p>
+        </div>
+
+        <div class="card">
+          <h3>⚖️ Sanciones de NIS2</h3>
+          <p>El incumplimiento puede acarrear multas de hasta:</p>
+          <ul>
+            <li><strong>7 millones de €</strong> o <strong>1.4% del volumen de negocio</strong> (lo que sea mayor) para entidades importantes.</li>
+            <li>Hasta <strong>10 millones de €</strong> o <strong>2% del volumen</strong> para entidades esenciales.</li>
+          </ul>
+          <p>Además, los directivos pueden enfrentar sanciones personales por negligencia grave.</p>
+        </div>
+
+        <div class="card">
+          <h3>📊 Ámbito de Aplicación</h3>
+          <table>
+            <tr>
+              <th>Entidades Esenciales</th>
+              <th>Entidades Importantes</th>
+            </tr>
+            <tr>
+              <td>Energía, Transporte, Banca, Salud</td>
+              <td>Alimentación, Residuos, Fabricación</td>
+            </tr>
+            <tr>
+              <td>Infraestructura de mercados financieros</td>
+              <td>Servicios postales, Electrónica</td>
+            </tr>
+            <tr>
+              <td>Infraestructura digital</td>
+              <td>Servicios digitales</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="quiz">
+          <h3>📝 Test de Autoevaluación</h3>
+          <div class="question">
+            <p>1. ¿Qué tipo de entidad NO está cubierta por NIS2?</p>
+            <div class="options">
+              <div class="option">Hospital público</div>
+              <div class="option">Empresa de transporte aéreo</div>
+              <div class="option" data-correct="true">Pequeño negocio local no crítico</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. NIS2 se enfoca en medianas y grandes empresas de sectores críticos.</div>
+          </div>
+
+          <div class="question">
+            <p>2. ¿Qué novedad clave introduce NIS2 respecto a la responsabilidad?</p>
+            <div class="options">
+              <div class="option">Responsabilidad exclusiva del departamento de TI</div>
+              <div class="option" data-correct="true">Responsabilidad personal de los órganos de gestión</div>
+              <div class="option">Eliminación de sanciones económicas</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Los directivos pueden ser sancionados por negligencia.</div>
+          </div>
+
+          <button class="btn btn-primary" onclick="checkAnswers()">Enviar Respuestas</button>
+        </div>
+      </section>
+
+      <!-- Módulo 4: Cumplimiento Integrado -->
+      <section id="modulo4" class="module">
+        <div class="module-header">
+          <h2>Módulo 4: Cumplimiento Integrado con ISO 27001</h2>
+          <p>Aprovecha ISO 27001 como base para DORA y NIS2.</p>
+        </div>
+
+        <div class="card">
+          <h3>📌 Estrategia Unificada</h3>
+          <p>ISO 27001 no garantiza el cumplimiento total de DORA o NIS2, pero proporciona una base sólida. Un <strong>SGSI bien implementado</strong> cubre la mayoría de los controles técnicos y organizativos exigidos.</p>
+          <p>Este enfoque evita duplicidades, reduce costos y mejora la eficiencia.</p>
+        </div>
+
+        <div class="card">
+          <h3>🔗 Mapeo de Requisitos</h3>
+          <table>
+            <tr>
+              <th>Requisito DORA/NIS2</th>
+              <th>Cláusula ISO 27001</th>
+            </tr>
+            <tr>
+              <td>Gestión de riesgos de TIC</td>
+              <td>Cláusula 6.1 (Evaluación de riesgos)</td>
+            </tr>
+            <tr>
+              <td>Gestión de incidentes</td>
+              <td>Cláusula 16.1</td>
+            </tr>
+            <tr>
+              <td>Pruebas de resiliencia</td>
+              <td>Anexo A.8.20 (Pruebas de seguridad)</td>
+            </tr>
+            <tr>
+              <td>Seguridad de proveedores</td>
+              <td>Anexo A.15</td>
+            </tr>
+            <tr>
+              <td>Control de acceso</td>
+              <td>Anexo A.8</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="quiz">
+          <h3>📝 Test de Autoevaluación</h3>
+          <div class="question">
+            <p>1. ¿Qué cláusula de ISO 27001 aborda la gestión de incidentes?</p>
+            <div class="options">
+              <div class="option">Cláusula 5.1</div>
+              <div class="option" data-correct="true">Cláusula 16.1</div>
+              <div class="option">Cláusula 8.2</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Cláusula 16.1 gestiona incidentes de seguridad.</div>
+          </div>
+
+          <button class="btn btn-primary" onclick="checkAnswers()">Enviar Respuestas</button>
+        </div>
+      </section>
+
+      <!-- Módulo 5: Implementación -->
+      <section id="modulo5" class="module">
+        <div class="module-header">
+          <h2>Módulo 5: Hoja de Ruta de Implementación</h2>
+          <p>Pasos prácticos para lograr el cumplimiento.</p>
+        </div>
+
+        <div class="card">
+          <h3>📌 5 Pasos Clave</h3>
+          <ol>
+            <li><strong>Compromiso de la alta dirección:</strong> La ciberseguridad es un riesgo de negocio, no solo técnico.</li>
+            <li><strong>Análisis de brechas (GAP):</strong> Evalúa tu estado actual frente a ISO 27001, DORA y NIS2.</li>
+            <li><strong>Diseño de estrategia unificada:</strong> Usa ISO 27001 como base y añade requisitos específicos.</li>
+            <li><strong>Capacitación continua:</strong> Todos los empleados deben conocer sus responsabilidades.</li>
+            <li><strong>Monitoreo y mejora:</strong> El cumplimiento es un proceso continuo, no un evento.</li>
+          </ol>
+        </div>
+
+        <div class="quiz">
+          <h3>📝 Test de Autoevaluación</h3>
+          <div class="question">
+            <p>1. ¿Cuál es el primer paso para implementar una estrategia de cumplimiento?</p>
+            <div class="options">
+              <div class="option" data-correct="true">Obtener el compromiso de la alta dirección</div>
+              <div class="option">Contratar un consultor externo</div>
+              <div class="option">Comprar software de seguridad</div>
+            </div>
+            <div class="feedback correct">✅ Correcto. Sin liderazgo, no hay recursos ni cambios organizativos.</div>
+          </div>
+
+          <button class="btn btn-primary" onclick="checkAnswers()">Enviar Respuestas</button>
+        </div>
+      </section>
+
+      <!-- Glosario -->
+      <section id="glosario" class="module">
+        <div class="module-header">
+          <h2>📖 Glosario Interactivo</h2>
+          <p>Haz clic en cualquier término para ver su definición.</p>
+        </div>
+
+        <div class="card">
+          <p>La <span class="glossary-term" onclick="showGlossary('SGSI')">SGSI</span> es el sistema que gestiona los riesgos de la información. Requiere un enfoque basado en <span class="glossary-term" onclick="showGlossary('riesgo')">riesgo</span>. Las entidades deben cumplir con <span class="glossary-term" onclick="showGlossary('DORA')">DORA</span> y <span class="glossary-term" onclick="showGlossary('NIS2')">NIS2</span> para operar en la UE.</p>
+        </div>
+      </section>
+
+      <!-- Línea de tiempo -->
+      <section id="timeline" class="module">
+        <div class="module-header">
+          <h2>📅 Línea de Tiempo de Regulaciones</h2>
+          <p>Evolución de la ciberseguridad en la UE.</p>
+        </div>
+
+        <div class="card">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-date">2013</div>
+              <div class="timeline-content">
+                <h3>Publicación de ISO 27001</h3>
+                <p>El estándar internacional se consolida como referencia global.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2016</div>
+              <div class="timeline-content">
+                <h3>Directiva NIS original</h3>
+                <p>Primera normativa de ciberseguridad en la UE, con alcance limitado.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2020</div>
+              <div class="timeline-content">
+                <h3>Propuesta de NIS2 y DORA</h3>
+                <p>La UE anuncia nuevas regulaciones para fortalecer la resiliencia digital.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2023</div>
+              <div class="timeline-content">
+                <h3>Entrada en vigor de DORA</h3>
+                <p>16 de enero de 2023. Periodo de transición de 2 años.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2024</div>
+              <div class="timeline-content">
+                <h3>Transposición de NIS2 en España</h3>
+                <p>Fecha límite: 17 de octubre de 2024.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-date">2025</div>
+              <div class="timeline-content">
+                <h3>Fecha límite de cumplimiento de DORA</h3>
+                <p>17 de enero de 2025. Supervisión activa por parte de las autoridades.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Juegos -->
+      <section id="juegos" class="module">
+        <div class="module-header">
+          <h2>🎮 Juegos de Aprendizaje</h2>
+          <p>Refuerza tu conocimiento de forma divertida.</p>
+        </div>
+
+        <div class="game">
+          <h3>🔍 Empareja el Concepto</h3>
+          <p>Arrastra cada definición al término correcto.</p>
+          <div class="match-pairs">
+            <div class="pair-item" id="term1">ISO 27001</div>
+            <div class="pair-item" id="def1">Estándar voluntario para gestión de seguridad de la información</div>
+            <div class="pair-item" id="term2">DORA</div>
+            <div class="pair-item" id="def2">Reglamento de resiliencia operativa para el sector financiero</div>
+          </div>
+          <button class="btn btn-success" onclick="checkPairs()">Verificar</button>
+        </div>
+
+        <div class="game">
+          <h3>🎯 Arrastra y Suelta: Pilares de DORA</h3>
+          <p>Arrastra los pilares correctos al recuadro.</p>
+          <div class="drag-drop">
+            <div class="options">
+              <div class="draggable" draggable="true">Gestión de riesgos de TIC</div>
+              <div class="draggable" draggable="true">Notificación de incidentes</div>
+              <div class="draggable" draggable="true">Pruebas de resistencia</div>
+              <div class="draggable" draggable="true">Marketing digital</div>
+            </div>
+            <div class="drop-zone" id="dora-drop-zone">
+              <p>Suelta aquí los 3 pilares correctos de DORA...</p>
+            </div>
+            <button class="btn btn-success" onclick="checkDropZone()">Verificar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Simulador -->
+      <section id="simulador" class="module">
+        <div class="module-header">
+          <h2>🧪 Simulador de Cumplimiento</h2>
+          <p>Aplica lo aprendido en un escenario real.</p>
+        </div>
+
+        <div class="simulator">
+          <p>Simula la implementación de un SGSI en una empresa fintech.</p>
+          <select id="step-select">
+            <option value="1">Paso 1: Compromiso de dirección</option>
+            <option value="2">Paso 2: Análisis de brechas</option>
+            <option value="3">Paso 3: Diseño del SGSI</option>
+            <option value="4">Paso 4: Capacitación</option>
+            <option value="5">Paso 5: Auditoría interna</option>
+          </select>
+          <button class="btn btn-primary" onclick="runSimulation()">Ejecutar Simulación</button>
+
+          <div id="simulation-result" style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 8px; display: none;"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal del Glosario -->
+  <div class="glossary-modal" id="glossary-modal">
+    <div class="glossary-modal-content">
+      <span class="close-modal" onclick="hideGlossary()">&times;</span>
+      <h3 id="modal-term"></h3>
+      <p id="modal-definition"></p>
     </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+  <footer>
+    <p>Minicampus Virtual de Ciberseguridad | Basado en el informe técnico de regulaciones europeas</p>
+  </footer>
 
-            // Estado global de la aplicación
-            const appState = {
-                currentSection: 'welcome-section',
-                totalModules: 6,
-                completedModules: new Set(),
-                score: 0,
-                badges: new Set()
-            };
-
-            // Definición de respuestas y feedback para los tests
-            const testAnswers = {
-                'test-1': {
-                    'q1': 'a',
-                    'q2': 'b',
-                    feedback: {
-                        'a': '¡Correcto! ISO 27001 busca proteger la Confidencialidad, Integridad y Disponibilidad (CIA).',
-                        'b': 'Incorrecto. ISO 27001 es un estándar voluntario.',
-                        'c': 'Incorrecto. La respuesta correcta es la a. DORA es el reglamento que se enfoca en el sector financiero.',
-                    }
-                },
-                'test-2': {
-                    'q3': 'c',
-                    'q4': 'a',
-                    feedback: {
-                        'c': '¡Correcto! DORA está diseñado para fortalecer la resiliencia en el sector financiero.',
-                        'a': '¡Correcto! La notificación de incidentes es uno de los 5 pilares de DORA.',
-                    }
-                },
-                'test-3': {
-                    'q5': 'b',
-                    'q6': 'a',
-                    feedback: {
-                        'b': '¡Correcto! Las Entidades Esenciales operan en sectores de alta criticidad.',
-                        'a': '¡Correcto! El régimen de sanciones de NIS2 es significativamente más severo.',
-                    }
-                },
-                'test-4': {
-                    'q7': 'a',
-                    'q8': 'a',
-                    feedback: {
-                        'a': '¡Correcto! ISO 27001 proporciona una base sólida con su enfoque de gestión de riesgos.',
-                        'a': '¡Correcto! La certificación ISO 27001 actúa como una evidencia de diligencia debida.',
-                    }
-                },
-                'test-5': {
-                    'q9': 'a',
-                    'q10': 'b',
-                    feedback: {
-                        'a': '¡Correcto! Los plazos de notificación son un requisito específico de DORA y NIS2.',
-                        'b': '¡Correcto! DORA y NIS2 imponen una responsabilidad personal y legal a la alta dirección.',
-                    }
-                },
-                'test-6': {
-                    'q11': 'b',
-                    'q12': 'b',
-                    feedback: {
-                        'b': '¡Correcto! Sin el compromiso de la alta dirección, la implementación es muy difícil.',
-                        'b': '¡Correcto! El cumplimiento es un proceso continuo de monitoreo y mejora.',
-                    }
-                }
-            };
-
-            // Mapeo de módulos a tests
-            const moduleTests = {
-                'module-1': 'test-1',
-                'module-2': 'test-2',
-                'module-3': 'test-3',
-                'module-4': 'test-4',
-                'module-5': 'test-5',
-                'module-6': 'test-6'
-            };
-
-            // Mapeo de módulos a badges
-            const moduleBadges = {
-                'module-1': 'Aprendiz de ISO',
-                'module-2': 'Maestro de DORA',
-                'module-3': 'Gurú de NIS2',
-                'module-4': 'Integrador',
-                'module-5': 'Estratega',
-                'module-6': 'Implementador',
-            };
-
-            // Definiciones del glosario
-            const glossaryData = {
-                'CIA': 'Confidencialidad, Integridad y Disponibilidad. Los tres pilares de la seguridad de la información.',
-                'SGSI': 'Sistema de Gestión de la Seguridad de la Información. Un conjunto de políticas, procedimientos y sistemas para gestionar los riesgos de seguridad.'
-            };
-
-            // Referencias a elementos del DOM
-            const contentArea = document.getElementById('content-area');
-            const navItems = document.querySelectorAll('.nav-item');
-            const progressBar = document.getElementById('progress-bar');
-            const progressText = document.getElementById('progress-text');
-            const badgesContainer = document.getElementById('badges-container');
-            const simulatorResult = document.getElementById('simulation-result');
-            const openSidebarBtn = document.getElementById('open-sidebar');
-            const sidebar = document.getElementById('sidebar');
-            const toggleSidebarBtn = document.getElementById('toggle-sidebar');
-            const welcomeSection = document.getElementById('welcome-section');
-
-            // Función para actualizar la UI según el estado
-            function renderUI() {
-                // Oculta todas las secciones de contenido
-                document.querySelectorAll('#content-area > div').forEach(section => {
-                    section.classList.remove('active');
-                    section.style.display = 'none'; // Usa display none para evitar problemas de layout
-                });
-                
-                // Muestra la sección actual
-                const currentSectionElement = document.getElementById(appState.currentSection);
-                if (currentSectionElement) {
-                    currentSectionElement.classList.add('active');
-                    currentSectionElement.style.display = 'block';
-                } else {
-                    // Si no se encuentra, muestra la sección de bienvenida por defecto
-                    welcomeSection.classList.add('active');
-                    welcomeSection.style.display = 'block';
-                }
-
-                // Actualiza la clase activa en el menú de navegación
-                navItems.forEach(item => {
-                    if (item.getAttribute('data-section') === appState.currentSection) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-
-                // Actualiza el progreso
-                const progressPercentage = (appState.completedModules.size / appState.totalModules) * 100;
-                progressBar.style.width = `${progressPercentage}%`;
-                progressText.textContent = `${Math.round(progressPercentage)}%`;
-            }
-
-            // Manejador de clic en la navegación
-            navItems.forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    appState.currentSection = item.getAttribute('data-section');
-                    renderUI();
-                    if (window.innerWidth <= 768) {
-                        sidebar.classList.add('hidden');
-                    }
-                });
-            });
-
-            // Manejador del botón de abrir la sidebar en móviles
-            openSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.remove('hidden');
-            });
-
-            // Manejador del botón de cerrar la sidebar en móviles
-            toggleSidebarBtn.addEventListener('click', () => {
-                sidebar.classList.add('hidden');
-            });
-
-            // Lógica para los tests
-            contentArea.addEventListener('click', (e) => {
-                if (e.target.classList.contains('check-answers-btn')) {
-                    const testId = e.target.closest('.test-section').querySelector('div[id^="test-"]').id;
-                    const answers = testAnswers[testId];
-                    let correctAnswers = 0;
-                    const questions = document.querySelectorAll(`#${testId} > div`);
-
-                    questions.forEach(qDiv => {
-                        const questionName = qDiv.querySelector('input').name;
-                        const selectedAnswer = document.querySelector(`input[name="${questionName}"]:checked`);
-                        const feedbackText = qDiv.querySelector('.feedback-text');
-
-                        if (selectedAnswer) {
-                            if (selectedAnswer.value === answers[questionName]) {
-                                feedbackText.textContent = '¡Correcto!';
-                                feedbackText.classList.remove('incorrect');
-                                feedbackText.classList.add('correct');
-                                correctAnswers++;
-                            } else {
-                                const fullFeedback = answers.feedback[selectedAnswer.value] || 'Incorrecto. La respuesta correcta es ' + answers[questionName].toUpperCase() + '.';
-                                feedbackText.textContent = fullFeedback;
-                                feedbackText.classList.remove('correct');
-                                feedbackText.classList.add('incorrect');
-                            }
-                        } else {
-                            feedbackText.textContent = 'Por favor, selecciona una respuesta.';
-                            feedbackText.classList.remove('correct');
-                            feedbackText.classList.add('incorrect');
-                        }
-                    });
-
-                    // Actualizar estado si el test está completo
-                    if (correctAnswers === questions.length) {
-                        const moduleId = e.target.closest('.module-content').id;
-                        if (!appState.completedModules.has(moduleId)) {
-                            appState.completedModules.add(moduleId);
-                            appState.score += questions.length; // Suma puntos por test completado
-                            unlockBadge(moduleId); // Desbloquea el logro
-                            renderUI();
-                            showMessage(`¡Módulo Completado! Has ganado ${questions.length} puntos.`, 'success');
-                        }
-                    } else {
-                        showMessage('Parece que algunas respuestas son incorrectas. Inténtalo de nuevo.', 'warning');
-                    }
-                }
-            });
-
-            // Función para mostrar mensajes de forma temporal
-            function showMessage(message, type) {
-                const messageBox = document.createElement('div');
-                messageBox.textContent = message;
-                messageBox.classList.add('fixed', 'bottom-4', 'left-1/2', '-translate-x-1/2', 'p-4', 'rounded-lg', 'shadow-xl', 'text-white', 'font-semibold', 'z-50');
-
-                if (type === 'success') {
-                    messageBox.classList.add('bg-green-500');
-                } else if (type === 'warning') {
-                    messageBox.classList.add('bg-yellow-500');
-                } else if (type === 'error') {
-                    messageBox.classList.add('bg-red-500');
-                }
-
-                document.body.appendChild(messageBox);
-                setTimeout(() => {
-                    messageBox.remove();
-                }, 3000);
-            }
-
-            // Lógica para desbloquear logros
-            function unlockBadge(moduleId) {
-                const badgeName = moduleBadges[moduleId];
-                if (badgeName && !appState.badges.has(badgeName)) {
-                    appState.badges.add(badgeName);
-                    const badgeContainers = badgesContainer.querySelectorAll('.badge-container');
-                    badgeContainers.forEach(container => {
-                        if (container.querySelector('p').textContent === badgeName) {
-                            const icon = container.querySelector('i');
-                            icon.classList.remove('text-gray-300');
-                            icon.classList.add('text-yellow-500');
-                            container.querySelector('p').classList.remove('text-gray-500');
-                            container.querySelector('p').classList.add('text-gray-800');
-                            container.classList.add('badge-unlocked');
-                        }
-                    });
-                }
-            }
-            
-            // Lógica para el juego de emparejamiento
-            let draggedItem = null;
-            const termItems = document.querySelectorAll('.term-item');
-            const dropZones = document.querySelectorAll('.drop-zone');
-            
-            termItems.forEach(item => {
-                item.addEventListener('dragstart', (e) => {
-                    draggedItem = e.target;
-                    e.dataTransfer.setData('text/plain', e.target.dataset.term);
-                });
-            });
-
-            dropZones.forEach(zone => {
-                zone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                });
-                zone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    if (draggedItem) {
-                        const term = e.dataTransfer.getData('text/plain');
-                        const def = e.target.dataset.def;
-                        const matchFeedback = document.getElementById('match-feedback');
-
-                        if ((term === 'DORA' && def === 'financial-resilience') ||
-                            (term === 'NIS2' && def === 'critical-sectors') ||
-                            (term === 'ISO' && def === 'info-security-standard')) {
-                            e.target.textContent = draggedItem.textContent;
-                            e.target.classList.remove('border-dashed', 'border-gray-400');
-                            e.target.classList.add('bg-green-200');
-                            draggedItem.remove();
-                            matchFeedback.textContent = '¡Emparejamiento correcto!';
-                            matchFeedback.classList.remove('incorrect');
-                            matchFeedback.classList.add('correct');
-                        } else {
-                            matchFeedback.textContent = 'Inténtalo de nuevo.';
-                            matchFeedback.classList.remove('correct');
-                            matchFeedback.classList.add('incorrect');
-                        }
-                    }
-                });
-            });
-
-            // Lógica para el juego de completar frases
-            let blankDragItem = null;
-            const wordBankItems = document.querySelectorAll('.word-bank-item');
-            const blankDropZone = document.getElementById('blank-drop-zone');
-            const checkBlankBtn = document.getElementById('check-fill-in-the-blank');
-            const blankFeedback = document.getElementById('fill-in-the-blank-feedback');
-            const correctWords = ['Esenciales', 'Importantes'];
-            const droppedWords = [];
-
-            wordBankItems.forEach(item => {
-                item.addEventListener('dragstart', (e) => {
-                    blankDragItem = e.target;
-                    e.dataTransfer.setData('text/plain', e.target.dataset.word);
-                });
-            });
-
-            blankDropZone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-
-            blankDropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const word = e.dataTransfer.getData('text/plain');
-                if (word) {
-                    const droppedWordElement = document.createElement('span');
-                    droppedWordElement.textContent = word;
-                    droppedWordElement.classList.add('p-2', 'bg-blue-200', 'rounded-lg', 'mx-1');
-                    blankDropZone.appendChild(droppedWordElement);
-                    droppedWords.push(word);
-                    blankDragItem.style.display = 'none'; // Oculta la palabra del banco
-                    blankDropZone.querySelector('.placeholder-text')?.remove();
-                }
-            });
-
-            checkBlankBtn.addEventListener('click', () => {
-                if (droppedWords.length !== 2) {
-                    blankFeedback.textContent = 'Por favor, arrastra dos palabras.';
-                    blankFeedback.classList.remove('correct');
-                    blankFeedback.classList.add('incorrect');
-                    return;
-                }
-                if (droppedWords[0] === correctWords[0] && droppedWords[1] === correctWords[1]) {
-                    blankFeedback.textContent = '¡Felicidades, la frase es correcta!';
-                    blankFeedback.classList.remove('incorrect');
-                    blankFeedback.classList.add('correct');
-                } else {
-                    blankFeedback.textContent = 'Incorrecto. Inténtalo de nuevo.';
-                    blankFeedback.classList.remove('correct');
-                    blankFeedback.classList.add('incorrect');
-                }
-            });
-            
-            // Lógica para el simulador
-            document.getElementById('simulate-btn').addEventListener('click', () => {
-                const control = document.getElementById('control-select').value;
-                const resultDiv = document.getElementById('simulation-result');
-                resultDiv.classList.remove('hidden');
-
-                if (control === 'none') {
-                    resultDiv.innerHTML = `<p class="text-red-600 font-semibold">Por favor, selecciona un control para simular.</p>`;
-                    return;
-                }
-
-                let message = '';
-                let resultClass = '';
-                if (control === 'concienciacion') {
-                    message = '¡Éxito! Gracias a una campaña de formación, el empleado reconoció el correo como phishing y no hizo clic. El incidente se ha evitado.';
-                    resultClass = 'bg-green-200 text-green-800';
-                } else if (control === 'acceso-fisico') {
-                    message = '¡Error! Este control no es relevante para el escenario. Un control de acceso físico no detiene un ataque de phishing.';
-                    resultClass = 'bg-red-200 text-red-800';
-                } else if (control === 'copias-seguridad') {
-                    message = '¡Error! Este control no es relevante para el escenario inmediato. Las copias de seguridad son útiles para la recuperación, pero no evitan el incidente inicial.';
-                    resultClass = 'bg-red-200 text-red-800';
-                }
-                
-                resultDiv.innerHTML = `<p class="font-semibold">${message}</p>`;
-                resultDiv.className = `mt-4 p-4 rounded-lg ${resultClass}`;
-            });
-
-            // Lógica del glosario
-            document.getElementById('content-area').addEventListener('click', (e) => {
-                if (e.target.classList.contains('glossary-term')) {
-                    const term = e.target.dataset.term;
-                    const definition = glossaryData[term];
-                    if (definition) {
-                        showMessage(definition, 'success');
-                    }
-                }
-            });
-
-            // Inicia la UI
-            renderUI();
+  <script>
+    // Navegación entre módulos
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href').substring(1);
+        
+        document.querySelectorAll('.module').forEach(mod => {
+          mod.classList.remove('active');
         });
-    </script>
+        document.getElementById(targetId).classList.add('active');
+
+        document.querySelectorAll('.nav-link').forEach(ln => {
+          ln.classList.remove('active');
+        });
+        this.classList.add('active');
+      });
+    });
+
+    // Tests: Selección de respuestas
+    document.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', function() {
+        const parent = this.parentElement;
+        parent.querySelectorAll('.option').forEach(opt => {
+          opt.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      });
+    });
+
+    // Verificar respuestas
+    function checkAnswers() {
+      let correct = 0;
+      document.querySelectorAll('.question').forEach(q => {
+        const selected = q.querySelector('.option.selected');
+        const feedback = q.querySelector('.feedback');
+        if (selected) {
+          if (selected.dataset.correct === "true") {
+            feedback.className = 'feedback correct';
+            feedback.textContent = '✅ Correcto. ' + feedback.textContent;
+            correct++;
+          } else {
+            feedback.className = 'feedback incorrect';
+            feedback.textContent = '❌ Incorrecto. ' + feedback.textContent;
+          }
+          feedback.style.display = 'block';
+        }
+      });
+      alert(`Has acertado ${correct} de ${document.querySelectorAll('.question').length} preguntas.`);
+      updateProgress();
+    }
+
+    // Glosario
+    const glossaryData = {
+      "SGSI": "Sistema de Gestión de la Seguridad de la Información. Marco para gestionar riesgos de seguridad de la información.",
+      "riesgo": "Posibilidad de que una amenaza explote una vulnerabilidad causando impacto en la información.",
+      "DORA": "Reglamento de Resiliencia Operativa Digital. Normativa de la UE para entidades financieras.",
+      "NIS2": "Directiva sobre la seguridad de las redes y sistemas de información. Aplica a sectores críticos."
+    };
+
+    function showGlossary(term) {
+      const modal = document.getElementById('glossary-modal');
+      document.getElementById('modal-term').textContent = term;
+      document.getElementById('modal-definition').textContent = glossaryData[term];
+      modal.style.display = 'flex';
+    }
+
+    function hideGlossary() {
+      document.getElementById('glossary-modal').style.display = 'none';
+    }
+
+    // Juegos
+    function checkPairs() {
+      const def1 = document.getElementById('def1');
+      const term1 = document.getElementById('term1');
+      if (def1.parentElement === term1.parentElement) {
+        alert("¡Correcto! ISO 27001 va con su definición.");
+      } else {
+        alert("Inténtalo de nuevo.");
+      }
+    }
+
+    // Arrastrar y soltar
+    document.querySelectorAll('.draggable').forEach(item => {
+      item.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text', this.textContent);
+      });
+    });
+
+    const dropZone = document.getElementById('dora-drop-zone');
+    dropZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      this.classList.add('active');
+    });
+
+    dropZone.addEventListener('dragleave', function() {
+      this.classList.remove('active');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('active');
+      const content = e.dataTransfer.getData('text');
+      const p = document.createElement('p');
+      p.textContent = content;
+      this.appendChild(p);
+    });
+
+    function checkDropZone() {
+      const texts = Array.from(dropZone.querySelectorAll('p')).map(p => p.textContent);
+      const correct = ["Gestión de riesgos de TIC", "Notificación de incidentes", "Pruebas de resistencia"];
+      const isCorrect = correct.every(c => texts.includes(c)) && texts.length === 3;
+      alert(isCorrect ? "¡Perfecto! Has identificado los 3 pilares." : "Algunos elementos no son correctos.");
+    }
+
+    // Simulador
+    function runSimulation() {
+      const step = document.getElementById('step-select').value;
+      const resultDiv = document.getElementById('simulation-result');
+      resultDiv.style.display = 'block';
+
+      const messages = {
+        "1": "✅ Compromiso de dirección: El CEO ha asignado recursos y nombrado un responsable de seguridad.",
+        "2": "📊 Análisis de brechas: Se detectaron 15 controles faltantes en el SGSI.",
+        "3": "🛠️ Diseño del SGSI: Se implementaron políticas, controles y se definió el alcance.",
+        "4": "👥 Capacitación: 100% del personal ha completado el curso de concienciación.",
+        "5": "🔍 Auditoría interna: Se verificó la efectividad del SGSI. Preparado para certificación."
+      };
+
+      resultDiv.textContent = messages[step];
+    }
+
+    // Actualizar progreso
+    function updateProgress() {
+      const completed = document.querySelectorAll('.module .feedback.correct[style="display: block;"]').length;
+      const total = 12; // número total de preguntas en todos los módulos
+      const progress = Math.round((completed / total) * 100);
+      
+      document.getElementById('progress-bar').style.width = progress + '%';
+      document.getElementById('progress-text').textContent = `${progress}% completado`;
+
+      // Desbloquear badges
+      if (progress >= 25) document.getElementById('badge1').classList.add('unlocked');
+      if (progress >= 50) document.getElementById('badge2').classList.add('unlocked');
+      if (progress >= 75) document.getElementById('badge3').classList.add('unlocked');
+      if (progress === 100) document.getElementById('badge4').classList.add('unlocked');
+    }
+
+    // Inicializar
+    updateProgress();
+  </script>
 </body>
 </html>
